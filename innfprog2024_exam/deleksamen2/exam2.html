@@ -38,14 +38,6 @@
             <h2>Oppgaver</h2>
             <ul id="todolist">
                 <!-- De to listeelementene skal byttes ut med utskrift av data fra programkoden i <script> -->
-                <li>
-                    <span class="tast-text">Les eksamensteksten</span>
-                    <span class="task-status task-status-done">Done</span>
-                </li>
-                <li>
-                    <span class="tast-text">Løs oppgavene i InnfProg-eksamen</span>
-                    <span class="task-status task-status-todo">To do</span>
-                </li>
             </ul>
         </section>
         <footer><p>Adminpanel IPv1.0</p></footer>
@@ -63,10 +55,11 @@
 
         let contactlist = ""
 
+        //Lagt på <a href="mailto" slikt at det skal kunne være mulig og klikke på epost-adressene og bli sendt til en email app
         contacts.map((contact, index) => {
             contactlist += `<article>
                 <p><strong>${contact.lastname}, ${contact.firstname}</strong><br />
-                    Kontor: ${contact.office} | E-post: ${contact.mail}</p>
+                    Kontor: ${contact.office} | E-post: <a href="mailto:${contact.mail}">${contact.mail}</a></p>
             </article>`
         })
 
@@ -93,11 +86,45 @@
             {text: "Løs Innføring i programmerings-eksamen", status: "To do"},
             {text: "Lag funksjonalitet for å registrere nye oppgaver", status: "To do"},
             {text: "Lag funksjonalitet for å sette en eksisterende oppgave til utført ved å endre status", status: "To do"}
+            
         ]
 
+            //funksjon som oppdaterer todolisten våres
+        function updateTodoList() {
+            //Dynamisk utskrift av oppgvene som ligger lagret i todos listen
+            const todosop = document.getElementById("todolist");
+            let todolist = "";
+
+            //Legger til alle oppgavene fra todos arrayet vårt
+            for (let i = 0; i < todos.length; i++) {
+                const todo = todos[i];
+            //Sjekker statusen til oppgavene og bestemmer hvilken css-klasse som skal bli brukt (på done / todo knappene)
+            const statusklasse = todo.status === "Done" ? "task-status-done" : "task-status-todo";
+            todolist += `<li>
+                    <span class="task-text">${todo.text}</span>
+                    <span class="task-status task-status ${statusklasse}">${todo.status}</span>
+                </li>`;
+         };
+
+            //oppdaterer todolisten våres
+         todosop.innerHTML = todolist;
+        }
+
+            //funksjonen blir brukt til og vise oppgavene på nettsiden fra arrayet
+        updateTodoList();
+
+            //vi gjør det mulig og legge til en ny oppgave når vi klikker på lagre knappen og når knappen trykkes blir det lagt til en ny oppgave i listen
+        document.getElementById("savetask").addEventListener("click", () => {
+            todos.push({text: "", status: "To do"});
+
+            //oppdaterer oppgave listen med den nye oppgaven vi lagde over
+            updateTodoList();
+        });
         
         //CLOCK
         
+
+
     </script>
 </body>
 </html>
