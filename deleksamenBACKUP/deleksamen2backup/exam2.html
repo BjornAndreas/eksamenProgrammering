@@ -106,14 +106,14 @@
                 </li>`;
          };
 
-        //oppdaterer todolisten våres
+            //oppdaterer todolisten våres
          todosop.innerHTML = todolist;
         }
 
-        //funksjonen blir brukt til og vise oppgavene på nettsiden fra arrayet
+            //funksjonen blir brukt til og vise oppgavene på nettsiden fra arrayet
         updateTodoList();
 
-        //vi gjør det mulig og legge til en ny oppgave når vi klikker på lagre knappen og når knappen trykkes blir det lagt til en ny oppgave i listen
+            //vi gjør det mulig og legge til en ny oppgave når vi klikker på lagre knappen og når knappen trykkes blir det lagt til en ny oppgave i listen
         document.getElementById("savetask").addEventListener("click", () => {
             todos.push({text: "", status: "To do"});
 
