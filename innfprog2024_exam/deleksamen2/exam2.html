@@ -12,7 +12,7 @@
             <h2>Kontakter</h2>
             <div id="contactlist"></div>
         </section>
-        <aside id="clock">13:37</aside>
+        <aside id="clock"></aside>
         <section id="books">
             <h2>Regnskap</h2>
             <p>Innkommende egenkapital: Kr. <span id="incomingequity"></span></p>
@@ -53,15 +53,28 @@
             {lastname: "Jansson", firstname: "Sigried", office: "B1", mail: "s.jansson@company.com"}
         ]
 
-        let contactlist = ""
+        //funksjon som sorterer etternavnene i alfabetisk rekkefølge
+        contacts.sort(function(a, b) {
+            //if funksjon som sjekker om etternavnet a er før etternavn b i alfabetisk rekkefølge og returnerer -1 som gjør at a kommer først
+            if (a.lastname < b.lastname) {
+                return -1;
+            }
+            //if funksjon som sjekker om etternavnet a er etter etternavn b i alfabetisk rekkefølge og returnerer 1 som gjør at a kommer etter b
+            if (a.lastname > b.lastname) {
+                return 1;
+            }
+            //om etternavn a og b har samme navn så endres ingenting mellom de som har like navn 
+            return 0;
+        });
 
+        let contactlist = ""
         //Lagt på <a href="mailto" slikt at det skal kunne være mulig og klikke på epost-adressene og bli sendt til en email app
         contacts.map((contact, index) => {
             contactlist += `<article>
                 <p><strong>${contact.lastname}, ${contact.firstname}</strong><br />
                     Kontor: ${contact.office} | E-post: <a href="mailto:${contact.mail}">${contact.mail}</a></p>
             </article>`
-        })
+        });
 
         document.getElementById("contactlist").innerHTML = contactlist
         
@@ -74,6 +87,21 @@
             {text: "Kontorrekvisita", date: "10.11.24", amount: -644},
             {text: "Nettbutikksalg, uke 45", date: "13.11.24", amount: 2988}
         ]
+
+            //oppretter en tom variabel og setter verdien tomt
+        let bookslist = '';
+
+            //for løkke som går gjennom books arrayen
+        for (let i = 0; i < books.length; i++) {
+            //legger til html kode for hver av bokføringene i arrayen
+            bookslist += `<div class="bookline">
+                <span class="booktext">${books[i].text}</span>
+                <span class="bookdate">${books[i].date}</span>
+                <span class="bookamount">${books[i].amount} kr</span>
+                </div>`
+        };
+            //henter id booklines slik at den nye booklist blir oppdatert på nettsiden
+        document.getElementById("booklines").innerHTML = bookslist;
 
         let equity = 23782; //Penger på konto ved inngangen til november
         document.getElementById("incomingequity").innerHTML = equity
@@ -91,15 +119,16 @@
 
             //funksjon som oppdaterer todolisten våres
         function updateTodoList() {
-            //Dynamisk utskrift av oppgvene som ligger lagret i todos listen
+            //henter html element fra todolist og oppretter en tom variabel
             const todosop = document.getElementById("todolist");
             let todolist = "";
 
-            //Legger til alle oppgavene fra todos arrayet vårt
+            //dynamisk utskrift av oppgaver, for går gjennom hver oppdave i todos arrayet
             for (let i = 0; i < todos.length; i++) {
                 const todo = todos[i];
             //Sjekker statusen til oppgavene og bestemmer hvilken css-klasse som skal bli brukt (på done / todo knappene)
             const statusklasse = todo.status === "Done" ? "task-status-done" : "task-status-todo";
+            //vi legger til html kode som gjør at hver oppgave oppdaterers og blir vist på nettsiden
             todolist += `<li>
                     <span class="task-text">${todo.text}</span>
                     <span class="task-status task-status ${statusklasse}">${todo.status}</span>
@@ -122,9 +151,27 @@
         });
         
         //CLOCK
-        
+        //kilde til klokke: https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
+        //lagt til klokke funksjon og endret getElementById fra 'txt' til 'clock' siden vi allerede hadde en clock id i html koden. den er i nåværende tid og oppdateres hvert sekund
+        function startTime() {
+            const today = new Date();
+            let h = today.getHours();
+            let m = today.getMinutes();
+            let s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('clock').innerHTML =  h + ":" + m + ":" + s;
+            setTimeout(startTime, 1000);
+        }
 
+        //denne legger til tallet 0 foran tall som er mindre enn 10
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
+        }
 
+        //starter funksjonen 
+        startTime();
     </script>
 </body>
 </html>
