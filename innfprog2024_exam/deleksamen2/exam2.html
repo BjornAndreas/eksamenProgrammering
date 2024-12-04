@@ -38,6 +38,14 @@
             <h2>Oppgaver</h2>
             <ul id="todolist">
                 <!-- De to listeelementene skal byttes ut med utskrift av data fra programkoden i <script> -->
+                <li>
+                    <span class="tast-text">Les eksamensteksten</span>
+                     <span class="task-status task-status-done">Done</span>
+                </li>
+                <li>
+                    <span class="tast-text">Løs oppgavene i InnfProg-eksamen</span>
+                    <span class="task-status task-status-todo">To do</span>
+                </li>
             </ul>
         </section>
         <footer><p>Adminpanel IPv1.0</p></footer>
@@ -89,11 +97,11 @@
         ]
 
             //oppretter en tom variabel og setter verdien tomt
-        let bookslist = '';
+        let bookslist = ''
 
             //for løkke som går gjennom books arrayen
         for (let i = 0; i < books.length; i++) {
-            //legger til html kode for hver av bokføringene i arrayen
+            //legger til html kode for hver av bokføringene i arrayen, hver av bokførigene får dataen sin på riktig sted
             bookslist += `<div class="bookline">
                 <span class="booktext">${books[i].text}</span>
                 <span class="bookdate">${books[i].date}</span>
@@ -101,7 +109,7 @@
                 </div>`
         };
             //henter id booklines slik at den nye booklist blir oppdatert på nettsiden
-        document.getElementById("booklines").innerHTML = bookslist;
+        document.getElementById("booklines").innerHTML = bookslist
 
         let equity = 23782; //Penger på konto ved inngangen til november
         document.getElementById("incomingequity").innerHTML = equity
@@ -120,10 +128,10 @@
             //funksjon som oppdaterer todolisten våres
         function updateTodoList() {
             //henter html element fra todolist og oppretter en tom variabel
-            const todosop = document.getElementById("todolist");
-            let todolist = "";
+            const todosop = document.getElementById("todolist")
+            let todolist = ""
 
-            //dynamisk utskrift av oppgaver, for går gjennom hver oppdave i todos arrayet
+            //dynamisk utskrift av oppgaver, for løkken går gjennom hver oppdave i todos arrayet
             for (let i = 0; i < todos.length; i++) {
                 const todo = todos[i];
             //Sjekker statusen til oppgavene og bestemmer hvilken css-klasse som skal bli brukt (på done / todo knappene)
@@ -136,18 +144,29 @@
          };
 
             //oppdaterer todolisten våres
-         todosop.innerHTML = todolist;
+         todosop.innerHTML = todolist
         }
 
-            //funksjonen blir brukt til og vise oppgavene på nettsiden fra arrayet
+            //funksjonen blir brukt til å oppdatere og vise oppgavene på nettsiden fra arrayet
         updateTodoList();
 
             //vi gjør det mulig og legge til en ny oppgave når vi klikker på lagre knappen og når knappen trykkes blir det lagt til en ny oppgave i listen
         document.getElementById("savetask").addEventListener("click", () => {
-            todos.push({text: "", status: "To do"});
+            //her så henter vi det som blir skrevet inn i input feltet
+            const inputOp = document.getElementById("task")
+            const nyOpTxt = inputOp.value;
+            //vi har en if test som sjekker om input feltet er tomt, om input feltet er tomt og du prøver og lagre en ny oppgave får du opp feil meldingen
+            if (nyOpTxt === "") {
+                alert("Du må skrive oppgaven i input feltet");
+                return;
+            }
+            //her så blir oppgaven lagret og lagt under oppgavene på nettsiden med det som er skrevet i input feltet
+            todos.push({text: nyOpTxt, status: "To do"});
 
             //oppdaterer oppgave listen med den nye oppgaven vi lagde over
             updateTodoList();
+            //setter input feltet til ingenting etter man klikker lagre
+            inputOp.value = ""
         });
         
         //CLOCK
@@ -170,7 +189,7 @@
             return i;
         }
 
-        //starter funksjonen 
+        //starter funksjonen slik at klokken kjører
         startTime();
     </script>
 </body>
