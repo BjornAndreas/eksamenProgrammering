@@ -41,7 +41,33 @@
         const ctx = canvas.getContext("2d")
 
         /* --- YOUR FUNCTIONALITY AND CODE GOES HERE --- */
-        
+        //en funksjon som generer en tilfeldig hex kode/farge
+        //grunnen til at jeg brukte dette var fordi jeg ikke har noen anelse på hvordan man skal "utregne" en hex kode (matte delen)
+        //KILDE: https://www.30secondsofcode.org/js/s/random-hex-color-code/
+        const randomhex = () => {
+            let randomNummer = (Math.random() * 0xfffff * 1000000).toString(16);
+            return '#' + randomNummer.slice(0, 6);
+        };
+
+        //array som lagrer fargene som blir pushet inn i arrayet ettersom vi klikker på "legg til en farge" knappen
+        let farger = [] 
+
+        //vi har en eventlistener som da legger til en tilfeldig farge når vi klikker på knappen "legg til en farge"
+        document.getElementById("addColor").addEventListener("click", () => {
+            //vi har en if test som sjekker antall farger i arrayet farger er 10 eller større. om det er 10 eller flere farger lagt til så konsoll logger vi melding om at 10 er maks antall farger.
+            if (farger.length >= 10) {
+                console.log("Maks antall farger er allerede lagt til (10)")
+                return;
+            }
+
+            //denne lager en tilfeldig hex kode/farge og lagrer den i nyFarge variabelen
+            const nyFarge = randomhex()
+            //den nye hex kode/farge som blir lagd blir da pushet inn i farger arrayet
+            farger.push(nyFarge)
+            //console.log som logger den nye fargen som blir lagt til i arrayet samtidig som den viser alle fargere som er lagt til
+            console.log("Ny random farge lagt til", nyFarge)
+            console.log("Alle farger", farger)
+        });
 
         //requestAnimationFrame
         const requestAnimationFrame = window.requestAnimationFrame || window.msRequestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame
