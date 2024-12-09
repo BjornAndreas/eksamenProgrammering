@@ -42,7 +42,7 @@
 
         /* --- YOUR FUNCTIONALITY AND CODE GOES HERE --- */
         //en funksjon som generer en tilfeldig hex kode/farge
-        //grunnen til at jeg brukte dette var fordi jeg ikke har noen anelse på hvordan man skal "utregne" en hex kode (matte delen)
+        //grunnen til at jeg brukte dette var fordi jeg ikke har noen anelse på hvordan man skal "utregne" en tilfeldig hex kode (matte delen)
         //KILDE: https://www.30secondsofcode.org/js/s/random-hex-color-code/
         const randomhex = () => {
             let randomNummer = (Math.random() * 0xfffff * 1000000).toString(16);
@@ -53,7 +53,7 @@
         let farger = [] 
 
         //vi har en eventlistener som da legger til en tilfeldig farge når vi klikker på knappen "legg til en farge"
-        document.getElementById("addColor").addEventListener("click", () => {
+        document.getElementById("addColor").addEventListener("click", function() {
             //vi har en if test som sjekker antall farger i arrayet farger er 10 eller større. om det er 10 eller flere farger lagt til så konsoll logger vi melding om at 10 er maks antall farger.
             if (farger.length >= 10) {
                 console.log("Maks antall farger er allerede lagt til (10)")
@@ -69,10 +69,65 @@
             console.log("Alle farger", farger)
         });
 
+        //vi lager en eventlistener slikt at vi fjerner farger når vi klikker på tilbakestill farger knappen
+        document.getElementById("emptyArray").addEventListener("click", function() {
+            
+            //tømmer konsollen når vi tilbakestiller fargene
+            console.clear()
+
+            //sørger for at farger arrayet vårt blir tomt etter tilbakestilling
+            farger = []
+
+            //sørger for at konsollen blir tømt også logges det at fargene har blitt tilbakestilt
+            console.log("fargene har blitt tilbakestilt", farger)
+
+            //tenger canvaset på nytt uten farger
+            renderCanvas()
+        });
+
         //requestAnimationFrame
         const requestAnimationFrame = window.requestAnimationFrame || window.msRequestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame
         function renderCanvas() {
-            
+            //tømmer canvas før vi lager firkantene
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            //dette her blir brukt slikt av når vi tegner en firkant så tar den 1/10 del av ruta og ikke hele width, men vi beholder høyden det samme på hver rute
+            const squareWidth = canvas.width / 10
+            const squareHeight = canvas.height
+
+            //for løkke som går gjennom fargene og tegner firkantene av fargene
+            for (let i = 0; i < farger.length; i++ ) {
+                const x = i * squareWidth
+                const y = 0
+                
+                //tegner firkanten til fargen som blir lagt til
+                ctx.beginPath()
+                ctx.fillStyle = farger[i]
+                ctx.fillRect(x, y, squareWidth, squareHeight)
+                ctx.closePath()
+
+                //tegner den hvite firkanten som ligger bak hex-farge kodene
+                ctx.beginPath()
+                ctx.fillStyle = "#fff"
+                ctx.fillRect(x, y, 65, 20)
+                ctx.closePath()
+
+                //denne lager hex-farge koden teksten som ligger i firkanten
+                ctx.fillStyle = "#000"
+                ctx.font = "12px Arial"
+                ctx.fillText(farger[i], x + 5, y + 15)
+
+                //tegner den hvite firkanten som ligger bak nummeret på firkantene
+                ctx.beginPath()
+                ctx.fillStyle = "#fff"
+                ctx.fillRect(x + 79, y + 80, 21, 20)
+                ctx.closePath()
+
+                //denne lager nummeret på firkanten
+                ctx.fillStyle = farger[i]
+                ctx.fillText(i + 1, x + squareWidth - 15, y + squareHeight - 5)
+                
+            }
             requestAnimationFrame(renderCanvas)
         }
 

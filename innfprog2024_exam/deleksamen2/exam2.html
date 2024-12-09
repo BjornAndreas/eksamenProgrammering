@@ -151,7 +151,7 @@
         updateTodoList();
 
             //vi gjør det mulig og legge til en ny oppgave når vi klikker på lagre knappen og når knappen trykkes blir det lagt til en ny oppgave i listen
-        document.getElementById("savetask").addEventListener("click", () => {
+        document.getElementById("savetask").addEventListener("click", function() {
             //her så henter vi det som blir skrevet inn i input feltet
             const inputOp = document.getElementById("task")
             const nyOpTxt = inputOp.value;
