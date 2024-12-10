@@ -52,6 +52,23 @@
         //array som lagrer fargene som blir pushet inn i arrayet ettersom vi klikker på "legg til en farge" knappen
         let farger = [] 
 
+
+        //vi har en function som endrer legg til farge knappen og deaktiverer den dersom det er 10 farger og aktiverer dersom det er mindre enn 10
+        function oppdaterFargeKnapp() {
+            const oppdaterFargeKnapp = document.getElementById("addColor")
+
+            //vi kjører en if test som ser om antall farger er større eller lik 10, og om den er 10 så vil knappen bli deaktivert, og om den er mindre blir den aktivert igjen
+            if (farger.length >= 10) {
+                
+                //deaktiverer legg til farge knappen om det er 10 farger lagt til
+                oppdaterFargeKnapp.disabled = true
+            } else {
+
+                //aktiverer legg til farge knappen om det er mindre enn 10 farger lagt til
+                oppdaterFargeKnapp.disabled = false
+            }
+        }
+
         //vi har en eventlistener som da legger til en tilfeldig farge når vi klikker på knappen "legg til en farge"
         document.getElementById("addColor").addEventListener("click", function() {
             //vi har en if test som sjekker antall farger i arrayet farger er 10 eller større. om det er 10 eller flere farger lagt til så konsoll logger vi melding om at 10 er maks antall farger.
@@ -62,27 +79,51 @@
 
             //denne lager en tilfeldig hex kode/farge og lagrer den i nyFarge variabelen
             const nyFarge = randomhex()
+
             //den nye hex kode/farge som blir lagd blir da pushet inn i farger arrayet
             farger.push(nyFarge)
+
             //console.log som logger den nye fargen som blir lagt til i arrayet samtidig som den viser alle fargere som er lagt til
             console.log("Ny random farge lagt til", nyFarge)
             console.log("Alle farger", farger)
+
+            //oppdaterer funksjonen som gjør legg til en farge knapp aktiv/deaktivert
+            oppdaterFargeKnapp()
         });
 
         //vi lager en eventlistener slikt at vi fjerner farger når vi klikker på tilbakestill farger knappen
         document.getElementById("emptyArray").addEventListener("click", function() {
-            
-            //tømmer konsollen når vi tilbakestiller fargene
-            console.clear()
 
             //sørger for at farger arrayet vårt blir tomt etter tilbakestilling
             farger = []
 
+            //tømmer konsollen når vi tilbakestiller fargene
+            console.clear()
+
             //sørger for at konsollen blir tømt også logges det at fargene har blitt tilbakestilt
             console.log("fargene har blitt tilbakestilt", farger)
 
-            //tenger canvaset på nytt uten farger
-            renderCanvas()
+            //oppdaterer funksjonen som gjør legg til en farge knapp aktiv/deaktivert
+            oppdaterFargeKnapp()
+        });
+
+        //vi lager en eventlistener slikt at vi får generert 10 nye farger ved klikk på generer 10 farge knappen
+        document.getElementById("generateAll").addEventListener("click", function() {
+
+            //sørger for at farger arrayet vårt blir tomt før vi genererer 10 nye farger
+            farger = []
+
+            //en for løkke som kjøres 10 ganger og genererer 10 tilfeldige hex kode farger og som pusher vær nye farge inn i farge arrayet vårt
+            for (let i = 0; i < 10; i++) {
+                farger.push(randomhex())
+            }
+
+            //tømmer konsollen også logger vi at det blir generert 10 nye farger
+            console.clear()
+            console.log("10 nye randome farger generert", farger)
+
+            //oppdaterer funksjonen som gjør legg til en farge knapp aktiv/deaktivert
+            oppdaterFargeKnapp()
         });
 
         //requestAnimationFrame
@@ -113,9 +154,11 @@
                 ctx.closePath()
 
                 //denne lager hex-farge koden teksten som ligger i firkanten
+                ctx.beginPath()
                 ctx.fillStyle = "#000"
                 ctx.font = "12px Arial"
                 ctx.fillText(farger[i], x + 5, y + 15)
+                ctx.closePath()
 
                 //tegner den hvite firkanten som ligger bak nummeret på firkantene
                 ctx.beginPath()
@@ -124,8 +167,10 @@
                 ctx.closePath()
 
                 //denne lager nummeret på firkanten
+                ctx.beginPath()
                 ctx.fillStyle = farger[i]
                 ctx.fillText(i + 1, x + squareWidth - 15, y + squareHeight - 5)
+                ctx.closePath()
                 
             }
             requestAnimationFrame(renderCanvas)
@@ -133,6 +178,7 @@
 
         //Initial running of drawing canvas
         renderCanvas()
+        oppdaterFargeKnapp()
     </script>
 </body>
 </html>
