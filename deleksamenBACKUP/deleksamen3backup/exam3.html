@@ -41,6 +41,7 @@
         const ctx = canvas.getContext("2d")
 
         /* --- YOUR FUNCTIONALITY AND CODE GOES HERE --- */
+
         //en funksjon som generer en tilfeldig hex kode/farge
         //grunnen til at jeg brukte dette var fordi jeg ikke har noen anelse på hvordan man skal "utregne" en tilfeldig hex kode (matte delen)
         //KILDE: https://www.30secondsofcode.org/js/s/random-hex-color-code/
@@ -55,6 +56,8 @@
 
         //vi har en function som endrer legg til farge knappen og deaktiverer den dersom det er 10 farger og aktiverer dersom det er mindre enn 10
         function oppdaterFargeKnapp() {
+
+            //henter refernanse fra html elementet addColor også lagrer den i en konstant som vi kan bruke til andre ting i koden
             const oppdaterFargeKnapp = document.getElementById("addColor")
 
             //vi kjører en if test som ser om antall farger er større eller lik 10, og om den er 10 så vil knappen bli deaktivert, og om den er mindre blir den aktivert igjen
@@ -71,11 +74,6 @@
 
         //vi har en eventlistener som da legger til en tilfeldig farge når vi klikker på knappen "legg til en farge"
         document.getElementById("addColor").addEventListener("click", function() {
-            //vi har en if test som sjekker antall farger i arrayet farger er 10 eller større. om det er 10 eller flere farger lagt til så konsoll logger vi melding om at 10 er maks antall farger.
-            if (farger.length >= 10) {
-                console.log("Maks antall farger er allerede lagt til (10)")
-                return;
-            }
 
             //denne lager en tilfeldig hex kode/farge og lagrer den i nyFarge variabelen
             const nyFarge = randomhex()
@@ -138,7 +136,11 @@
 
             //for løkke som går gjennom fargene og tegner firkantene av fargene
             for (let i = 0; i < farger.length; i++ ) {
+
+                //det er her firkanten starter langs x aksjen og som gjør at de blir lagt ved siden av hverandre for hver farge som blir lagt til
                 const x = i * squareWidth
+
+                //sørger for at firkanten starter på toppen på y aksjen og at den dekker hele høyden på canvaset sitt (vær firkant dekker sin del)
                 const y = 0
                 
                 //tegner firkanten til fargen som blir lagt til
@@ -178,7 +180,6 @@
 
         //Initial running of drawing canvas
         renderCanvas()
-        oppdaterFargeKnapp()
     </script>
 </body>
 </html>
