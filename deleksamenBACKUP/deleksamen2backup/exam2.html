@@ -76,6 +76,7 @@
         });
 
         let contactlist = ""
+        
         //Lagt på <a href="mailto" slikt at det skal kunne være mulig og klikke på epost-adressene og bli sendt til en email app
         contacts.map((contact, index) => {
             contactlist += `<article>
@@ -99,7 +100,7 @@
             //oppretter en tom variabel og setter verdien tomt
         let bookslist = ''
 
-            //for løkke som går gjennom books arrayen
+            //for løkke som går gjennom alle elementene i books arrayen
         for (let i = 0; i < books.length; i++) {
             //legger til html kode for hver av bokføringene i arrayen, hver av bokførigene får dataen sin på riktig sted
             bookslist += `<div class="bookline">
@@ -108,7 +109,7 @@
                 <span class="bookamount">${books[i].amount} kr</span>
                 </div>`
         };
-            //henter id booklines slik at den nye booklist blir oppdatert på nettsiden
+            //henter elementet med id booklines og oppdaterer innholdet med den nye booklisten på nettsiden
         document.getElementById("booklines").innerHTML = bookslist
 
         let equity = 23782; //Penger på konto ved inngangen til november
@@ -125,7 +126,7 @@
             
         ]
 
-            //funksjon som oppdaterer todolisten våres
+            //funksjon som oppdaterer og viser oppgavene i todolisten våres
         function updateTodoList() {
             //henter html element fra todolist og oppretter en tom variabel
             const todosop = document.getElementById("todolist")
@@ -154,7 +155,7 @@
         document.getElementById("savetask").addEventListener("click", function() {
             //her så henter vi det som blir skrevet inn i input feltet
             const inputOp = document.getElementById("task")
-            const nyOpTxt = inputOp.value;
+            const nyOpTxt = inputOp.value
             //vi har en if test som sjekker om input feltet er tomt, om input feltet er tomt og du prøver og lagre en ny oppgave får du opp feil meldingen
             if (nyOpTxt === "") {
                 alert("Du må skrive oppgaven i input feltet");
