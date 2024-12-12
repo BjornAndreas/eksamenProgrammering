@@ -63,11 +63,11 @@
 
         //funksjon som sorterer etternavnene i alfabetisk rekkefølge
         contacts.sort(function(a, b) {
-            //if funksjon som sjekker om etternavnet a er før etternavn b i alfabetisk rekkefølge og returnerer -1 som gjør at a kommer først
+            //sjekker om etternavnet a er før etternavn b i alfabetisk rekkefølge og returnerer -1 som gjør at a kommer først
             if (a.lastname < b.lastname) {
                 return -1;
             }
-            //if funksjon som sjekker om etternavnet a er etter etternavn b i alfabetisk rekkefølge og returnerer 1 som gjør at a kommer etter b
+            //sjekker om etternavnet a er etter etternavn b i alfabetisk rekkefølge og returnerer 1 som gjør at a kommer etter b
             if (a.lastname > b.lastname) {
                 return 1;
             }
